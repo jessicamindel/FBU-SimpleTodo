@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
 
+    ImageView ivEmptyImg;
+    TextView tvEmptyHead, tvEmptySub;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +45,21 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems); // Just like DOM querying in JS!
         lvItems.setAdapter(itemsAdapter);
 
+        ivEmptyImg = (ImageView) findViewById(R.id.ivEmptyImg);
+        tvEmptyHead = (TextView) findViewById(R.id.tvEmptyHead);
+        tvEmptySub = (TextView) findViewById(R.id.tvEmptySub);
+        updateEmpty();
+
         setupListViewListener();
     }
 
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText); // LEARN: Why are we adding to itemsAdapter instead of items here, while we add to items for sample data?
+        itemsAdapter.add(itemText);
         etNewItem.setText("");
         writeItems();
+        updateEmpty();
         Toast.makeText(getApplicationContext(), "Item added to list", Toast.LENGTH_SHORT).show();
     }
 
@@ -61,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 items.remove(i);
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
+                updateEmpty();
                 return true; // LEARN: Prevent bubbling by consuming?
             }
         });
@@ -85,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             items.set(position, updatedItem);
             itemsAdapter.notifyDataSetChanged();
             writeItems();
+            updateEmpty();
             Toast.makeText(getApplicationContext(), "Item changed successfully", Toast.LENGTH_SHORT).show();
         }
     }
@@ -108,5 +121,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("MainActivity", "Error writing file", e);
         }
+    }
+
+    private void updateEmpty() {
+        int visibility;
+        if (items.size() == 0) {
+            visibility = View.VISIBLE;
+        } else {
+            visibility = View.GONE;
+        }
+        ivEmptyImg.setVisibility(visibility);
+        tvEmptyHead.setVisibility(visibility);
+        tvEmptySub.setVisibility(visibility);
     }
 }
