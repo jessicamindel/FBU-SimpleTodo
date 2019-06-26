@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.apache.commons.io.FileUtils;
 
@@ -32,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
 
-    ImageView ivEmptyImg;
-    TextView tvEmptyHead, tvEmptySub;
+//    ImageView ivEmptyImg;
+//    TextView tvEmptyHead, tvEmptySub;
+    ConstraintLayout clEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems); // Just like DOM querying in JS!
         lvItems.setAdapter(itemsAdapter);
 
-        ivEmptyImg = (ImageView) findViewById(R.id.ivEmptyImg);
-        tvEmptyHead = (TextView) findViewById(R.id.tvEmptyHead);
-        tvEmptySub = (TextView) findViewById(R.id.tvEmptySub);
+//        ivEmptyImg = (ImageView) findViewById(R.id.ivEmptyImg);
+//        tvEmptyHead = (TextView) findViewById(R.id.tvEmptyHead);
+//        tvEmptySub = (TextView) findViewById(R.id.tvEmptySub);
+        clEmpty = (ConstraintLayout) findViewById(R.id.clEmpty);
         updateEmpty();
 
         setupListViewListener();
@@ -130,8 +131,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             visibility = View.GONE;
         }
-        ivEmptyImg.setVisibility(visibility);
-        tvEmptyHead.setVisibility(visibility);
-        tvEmptySub.setVisibility(visibility);
+//        ivEmptyImg.setVisibility(visibility);
+//        tvEmptyHead.setVisibility(visibility);
+//        tvEmptySub.setVisibility(visibility);
+        clEmpty.setVisibility(visibility);
     }
 }
